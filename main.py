@@ -1,16 +1,14 @@
-# This is a sample Python script.
+import requests
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main():
+    base = input("Base currency: ")
+    other = input("Other currency: ")
+    res = requests.get("https://api.exchangeratesapi.io/latest", params={"base":base, "symbols": other})
+    if res.status_code != 200:
+        raise Exception("Error, Api access unsuccessful")
+    data = res.json()
+    rate = data["rates"][other]
+    print(f"1 {base} = {rate} {other}")
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    main()
